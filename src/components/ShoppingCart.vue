@@ -1,7 +1,10 @@
 <template>
   <div>
     <span>{{ name }}</span>
+
+    <button @click="$emit('decrement')">-</button>
     <span>{{ quantity }}</span>
+    <button @click="$emit('increment')">+</button>
   </div>
 </template>
 
@@ -9,6 +12,11 @@
 defineProps<{
   name: string;
   quantity: number;
+}>();
+
+defineEmits<{
+  (event: 'increment'): void;
+  (event: 'decrement'): void;
 }>();
 </script>
 
