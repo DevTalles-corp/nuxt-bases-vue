@@ -3,6 +3,7 @@
     <h2>#{{ pokemon.id }} {{ pokemon.name }}</h2>
     <img :src="pokemon.image" :alt="pokemon.name" />
 
+    <button :disabled="pokemonId === 1" @click="pokemonId--">Anterior</button>
     <button @click="pokemonId++">Siguiente</button>
     <h3>PokemonId: {{ pokemonId }}</h3>
   </section>
@@ -22,12 +23,8 @@ interface Pokemon {
 const pokemon = ref<Pokemon | null>(null);
 const pokemonId = ref(1);
 
-// const response = await fetch(
-//   `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
-// );
-// const responseData = await response.json();
 const { data, hasError, isLoading } = useFetch<PokeapiPokemonResponse>(
-  `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
+  () => `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
 );
 
 watch(data, (newPokemon) => {
