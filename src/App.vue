@@ -10,9 +10,9 @@
       @decrement="() => handleDecrementQuantity(product.id)"
     />
 
-    <suspense>
-      <PokemonInfo />
-    </suspense>
+    <!-- <suspense> -->
+    <PokemonInfo />
+    <!-- </suspense> -->
   </div>
 </template>
 

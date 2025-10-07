@@ -9,7 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useFetch } from '../composable/useFetch';
 
 interface Pokemon {
   id: number;
@@ -20,16 +21,21 @@ interface Pokemon {
 const pokemon = ref<Pokemon | null>(null);
 const pokemonId = ref(1);
 
-const response = await fetch(
+// const response = await fetch(
+//   `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
+// );
+// const responseData = await response.json();
+const { data, hasError, isLoading } = useFetch(
   `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
 );
-const responseData = await response.json();
 
-pokemon.value = {
-  id: responseData.id,
-  name: responseData.name,
-  image: responseData.sprites.front_default,
-};
+watch(data, (newPokemon: any) => {
+  pokemon.value = {
+    id: newPokemon.id,
+    name: newPokemon.name,
+    image: newPokemon.sprites.front_default,
+  };
+});
 </script>
 
 <style scoped>
