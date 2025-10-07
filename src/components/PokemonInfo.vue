@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useFetch } from '../composable/useFetch';
+import type { PokeapiPokemonResponse } from '../interfaces/pokeapi-pokemon.response';
 
 interface Pokemon {
   id: number;
@@ -25,11 +26,13 @@ const pokemonId = ref(1);
 //   `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
 // );
 // const responseData = await response.json();
-const { data, hasError, isLoading } = useFetch(
+const { data, hasError, isLoading } = useFetch<PokeapiPokemonResponse>(
   `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
 );
 
-watch(data, (newPokemon: any) => {
+watch(data, (newPokemon) => {
+  if (!newPokemon) return;
+
   pokemon.value = {
     id: newPokemon.id,
     name: newPokemon.name,

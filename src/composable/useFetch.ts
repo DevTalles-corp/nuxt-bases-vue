@@ -1,9 +1,9 @@
 import { onMounted, ref } from 'vue';
 
-export const useFetch = (url: string) => {
-  const data = ref(null);
+export const useFetch = <T>(url: string) => {
+  const data = ref<T | null>(null);
   const hasError = ref(false);
-  const error = ref(null);
+  const error = ref<Error | null>(null);
   const isLoading = ref(true);
 
   onMounted(() => {
@@ -21,7 +21,7 @@ export const useFetch = (url: string) => {
 
       data.value = responseData;
     } catch (err) {
-      error.value = err as any;
+      error.value = err as Error;
     } finally {
       isLoading.value = false;
     }
